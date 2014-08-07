@@ -1,0 +1,73 @@
+~~ single line comment
+{~
+  multi
+  line
+  comment
+  {~
+    nested
+    comment
+  ~}
+~}
+
+func main(Environment env) -> (int) {
+  return 0;
+}
+
+identifier :: [A-Za-z][A-Za-z0-9_]*
+
+operator
++ - * / %       arithmetic operator
+~               unary minus
+:=              assignment
+= < > <= >= /=  compare
+'"              char, string
+\               escape
+.               resolve namespace
+;               semicolon
+(){}[]<>        parens
+()              empty tuple
+(  ,  )         tuple
+!?
+
+ # $ & ^ | @ ` :
+
+and or not xor
+andb orb notb xorb
+succ i; pred i;
+
+for (variable<Int> i := ~10; i < 10; succ i) {
+  variable<(Int,Int)> j := (2, 3);
+  const<int> x := 3;
+  const<(Int,Int)> y := (2, 3);
+  variable<Int> z := 0 + 32 / 5;
+  z :+= z * 4 + x;
+  variable<Double> zz = cast<Double>(z);
+}
+
+
+statement
+
+if (expr) {
+  statement_true;
+}
+
+if (expr) {
+  statement_true;
+} else {
+  statement_false;
+}
+
+if_statement = if ( expr ) { statement }
+             | if ( expr ) { statement } else { statement }
+             | if ( expr ) { statement } else if_statement
+
+conditional_operator = ( expr ? expr : expr )
+
+{~~
+if_expr = if expr then expr endif
+        | if expr then expr else expr endif
+~~}
+
+while_statement = while ( expr ) { statement }
+
+for_statement = for ( expr ; expr ; expr ) { statement }
