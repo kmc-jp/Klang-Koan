@@ -1,0 +1,123 @@
+関数(値渡しのみ)
+int
+制御構文 if for while return break continue
+
+===
+字句解析
+alphabet         : [A-za-z]
+alphabet_        : _ | alphabet
+nonzero_digit    : [1-9]
+decimal_digit    : [0-9]
+identifier       : alphabet_ (decimal_digit | alphabet_)*
+decimal_integer  : nonzero_digit (decimal_digit)*
+assignment_op    : := | :+= | :-= | :*= | :/= | :%=
+arithmetic_op    : * | / | % | + | -
+comparison_op    : = | < | > | <= | >= | /=
+parenthesis      : ( | ) | { | }
+logical_op       : and | or | not | xor
+reserved         : int | def | var | return
+                 | if | else | while | for | break | continue
+
+
+構文解析
+
+program : function_definition
+        | function_definition program
+
+function_definition : def function_name ( argument_list_opt ) -> ( type ) { statement_list }
+
+type : int
+
+function_name : identifier
+
+argument_list_opt : empty
+                  | argument_list
+
+argument_list : argument
+              | argument , argument_list
+
+argument : type identifier
+
+statement_list : empty
+               | statement statement_list
+
+statement : empty_statement
+          | compound_statement
+          | declaration
+          | assign_statement
+          | return_statement
+          | if_statement
+          | while_statement
+          | for_statement
+          | break ;
+          | continue ;
+          | expression ;
+
+compound_statement : { statement_list }
+
+declaration : def type identifier := expression ;
+            | def type identifier ;
+            | def var type identifier := expression ;
+            | def var type identifier ;
+
+assign_statement : identifier := expression ;
+                 | identifier :+= expression ;
+                 | identifier :-= expression ;
+                 | identifier :*= expression ;
+                 | identifier :/= expression ;
+                 | identifier :%= expression ;
+
+return_statement : return expression ;
+
+if_statement : if ( expression ) compound_statement
+             | if ( expression ) compound_statement else compound_statement
+             | if ( expression ) compound_statement else if_statement
+
+while_statement : while ( expression ) compound_statement
+
+for_statement : for ( statement ; expression ; statement ) compound_statement
+
+
+expression : or_expression
+
+or_expression : and_expression
+              | or_expression or and_expression
+              | or_expression xor and_expression
+
+and_expression : not_expression
+               | and_expression and not_expression
+
+not_expression : not not_expression
+               | comparsion_expression
+
+comparison_expression : additive_expression
+                      | additive_expression = additive_expression
+                      | additive_expression < additive_expression
+                      | additive_expression > additive_expression
+                      | additive_expression <= additive_expression
+                      | additive_expression >= additive_expression
+                      | additive_expression /= additive_expression
+
+additive_expression : multiplicative_expression
+                    | additive_expression + multiplicative_expression
+                    | additive_expression - multiplicative_expression
+
+multiplicative_expression : unary_epression
+                          | multiplicative_expression * unary_expression
+                          | multiplicative_expression / unary_expression
+                          | multiplicative_expression % unary_expression
+
+unary_expression : ~ unary_expression
+                 | unit_expression
+
+unit_expression : ( expression )
+                | identifier
+                | function_call
+
+function_call : identifier ( expression_sequence_opt )
+
+expression_sequence_opt : empty
+                        | expression_sequence
+
+expression_sequence : expression
+                    | expression , expression_sequence
