@@ -79,3 +79,25 @@ function_call <-
 
 tuple <-
   "(" (expression ("," expression)*) / empty ")"
+
+if_statement <-
+  "if" "(" expression ")" "{"
+    statement_block
+  "}" ("else" (if_statement / "{" statement_block "}"))?
+
+while_statement <-
+  "while" "(" expression ")" "{" statement_block "}"
+
+for_statement <-
+  "for" "(" expression? ";" expression? ";" expression? ")" "{"
+    statement_block
+  "}"
+
+return_statement <-
+  "return" expression ";"
+
+break_statement <-
+  "break" ";"
+
+continue_statement <-
+  "continue" ";"
