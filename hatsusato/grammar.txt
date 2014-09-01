@@ -8,8 +8,8 @@ alphabet <- [a-zA-Z]
 alphabet_or_bar <- "_" / alphabet
 nonzero_digit <- [1-9]
 decimal_digit <- [0-9]
-natural_number <- nonzero_digit (decimal_digit / "_" !"_")*
-decimal_integer <- "0" ![0-9] / "~"? natural_number
+natural_number <- nonzero_digit (decimal_digit / ("_" !"_"))*
+decimal_integer <- ("0" ![0-9]) / ("~"? natural_number)
 identifier <- alphabet_or_bar (alphabet_or_bar / decimal_digit)*
 integer_literal <- decimal_integer
 
@@ -17,34 +17,34 @@ integer_literal <- decimal_integer
 program <- function_definition+
 
 function_definition <-
-  "def" identifier "(" formal_argument_list ")" "->" "(" type ")"
-  statement_block
+  "def" identifier "(" formal_argument_list ")" "->" "(" type ")" "{"
+    statement_block
+  "}"
 
 formal_argument <- type identifier
 
 formal_argument_list <-
-  formal_argument ("," formal_argument)* / empty
+  (formal_argument ("," formal_argument)*) / empty
 
 type <- "int"
 
-statement_block <- "{" statement* "}"
+statement_block <- statement*
 
 statement <-
   ";" /
-   expression ";" /
-   variable_definition
-   if_statement
-   while_statement
-   for_statement
-   return_statement
-   break_statement
+   (expression ";") /
+   if_statement /
+   while_statement /
+   for_statement /
+   return_statement /
+   break_statement /
    continue_statement
 
 variable_definition <-
-  "def" "type" "var"? identifier (":=" expression)? ";"
+  "def" "type" "var"? identifier (":=" expression)?
 
 expression <-
-  assign_expression / or_expression
+  variable_difinition / assign_expression / or_expression
 
 assign_expression <-
   identifier
@@ -78,5 +78,4 @@ function_call <-
   identifier tuple
 
 tuple <-
-  "(" (expression ("," expression)* / empty) ")"
-
+  "(" (expression ("," expression)*) / empty ")"
