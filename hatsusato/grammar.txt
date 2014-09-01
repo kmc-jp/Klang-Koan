@@ -12,86 +12,61 @@ natural_number <- nonzero_digit (decimal_digit / ("_" !"_"))*
 decimal_integer <- ("0" ![0-9]) / ("~"? natural_number)
 identifier <- alphabet_or_bar (alphabet_or_bar / decimal_digit)*
 integer_literal <- decimal_integer
-
-# Nonterminal symbol
-program <- function_definition+
-
-function_definition <-
-  "def" identifier "(" formal_argument_list ")" "->" "(" type ")" "{"
-    statement_block
-  "}"
-
-formal_argument <- type identifier
-
-formal_argument_list <-
-  (formal_argument ("," formal_argument)*) / empty
-
 type <- "int"
 
-statement_block <- statement*
+# Nonterminal symbol
+program <-
+  function_definition+
+
+function_definition <-
+  "def" identifier "(" argument_list ")" "->" "(" type ")" compound_statement
+
+argument_list <-
+  (argument ("," argument)*) / empty
+
+argument <-
+  type identifier
+
+compound_statement <-
+  "{" statement* "}"
 
 statement <-
-  ";" /
-   (expression ";") /
-   if_statement /
-   while_statement /
-   for_statement /
-   return_statement /
-   break_statement /
-   continue_statement
+  empty_statement /
+  expression_statement /
+  variable_definition_statement /
+  if_statement /
+  while_statement /
+  for_statement /
+  return_statement /
+  break_statement /
+  continue_statement
 
-variable_definition <-
-  "def" "type" "var"? identifier (":=" expression)?
+empty_statement <-
+  ";"
 
-expression <-
-  variable_difinition / assign_expression / or_expression
+expression_statement <-
+  expression ";"
 
-assign_expression <-
-  identifier
-  (":=" / ":+=" / ":-=" / ":*=" / ":/=" / ":%=")
-  or_expression
-
-or_expression <-
-  and_expression ("or" and_expression)*
-
-and_expression <-
-  comparative_expression ("and" comparative_expression)*
-
-comparative_expression <-
-  additive_expression
-  ("<" / ">" / "<=" / ">=" / "=" / "/=" / "")
-  additive_expression
-
-additive_expression <-
-  multitive_expression (("+" / "-") multitive_expression)*
-
-multitive_expression <-
-  unary_expression (("*" / "/" / "%") unary_expression)*
-
-unary_expression <-
-  "~" primary_expression
-
-primary_expression <-
-  expression / identifier / integer_literal / function_call
-
-function_call <-
-  identifier tuple
-
-tuple <-
-  "(" (expression ("," expression)*) / empty ")"
+variable_definition_statement <-
+  variable_definition ";"
 
 if_statement <-
-  "if" "(" expression ")" "{"
-    statement_block
-  "}" ("else" (if_statement / "{" statement_block "}"))?
+  "if" "(" expression ")" compound_statement
+  (else_if_statement / else_statement)?
+
+else_if_statement <-
+  "else" "if" "(" expression ")" compound_statement
+  (else_if_statement / else_statement)?
+
+else_statement <-
+  "else" compound_statement
 
 while_statement <-
-  "while" "(" expression ")" "{" statement_block "}"
+  "while" "(" expression ")" compound_statement
 
 for_statement <-
-  "for" "(" expression? ";" expression? ";" expression? ")" "{"
-    statement_block
-  "}"
+  "for" "(" expression? ";" expression? ";" expression? ")"
+  compound_statement
 
 return_statement <-
   "return" expression ";"
@@ -101,3 +76,47 @@ break_statement <-
 
 continue_statement <-
   "continue" ";"
+
+variable_definition <-
+  "def" "type" "var"? identifier (":=" expression)?
+
+expression <-
+  assign_expression
+
+assign_expression <-
+  or_expression
+  ((":=" / ":+=" / ":-=" / ":*=" / ":/=" / ":%=") or_expression)?
+
+or_expression <-
+  and_expression ("or" and_expression)*
+
+and_expression <-
+  comparative_expression ("and" comparative_expression)*
+
+comparative_expression <-
+  additive_expression
+  (("=" / "/=" / "<" / ">" / "<=" / ">=") additive_expression)?
+
+additive_expression <-
+  multiplicative_expression (("+" / "-") multiplicative_expression)*
+
+multiplicative_expression <-
+  unary_expression (("*" / "/" / "%") unary_expression)*
+
+unary_expression <-
+  (("not" / "~") unary_expression) / postfix_expression
+
+postfix_expression <-
+  function_call / primary_expression
+
+function_call <-
+  identifier "(" parameter_list ")"
+
+parameter_list <-
+  (parameter ("," parameter)*) / empty
+
+parameter <-
+  expression
+
+primary_expression <-
+  ("(" expression ")") / identifier / integer_literal
