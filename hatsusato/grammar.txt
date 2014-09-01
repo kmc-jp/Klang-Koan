@@ -1,0 +1,82 @@
+# written by PGE (Parsing Expression Grammar)
+
+# Terminal symbol
+empty <- ""
+singleline_comment <- "~~" (!"\n" .)*
+multiline_comment <- "{~" .* "~}"
+alphabet <- [a-zA-Z]
+alphabet_or_bar <- "_" / alphabet
+nonzero_digit <- [1-9]
+decimal_digit <- [0-9]
+natural_number <- nonzero_digit (decimal_digit / "_" !"_")*
+decimal_integer <- "0" ![0-9] / "~"? natural_number
+identifier <- alphabet_or_bar (alphabet_or_bar / decimal_digit)*
+integer_literal <- decimal_integer
+
+# Nonterminal symbol
+program <- function_definition+
+
+function_definition <-
+  "def" identifier "(" formal_argument_list ")" "->" "(" type ")"
+  statement_block
+
+formal_argument <- type identifier
+
+formal_argument_list <-
+  formal_argument ("," formal_argument)* / empty
+
+type <- "int"
+
+statement_block <- "{" statement* "}"
+
+statement <-
+  ";" /
+   expression ";" /
+   variable_definition
+   if_statement
+   while_statement
+   for_statement
+   return_statement
+   break_statement
+   continue_statement
+
+variable_definition <-
+  "def" "type" "var"? identifier (":=" expression)? ";"
+
+expression <-
+  assign_expression / or_expression
+
+assign_expression <-
+  identifier
+  (":=" / ":+=" / ":-=" / ":*=" / ":/=" / ":%=")
+  or_expression
+
+or_expression <-
+  and_expression ("or" and_expression)*
+
+and_expression <-
+  comparative_expression ("and" comparative_expression)*
+
+comparative_expression <-
+  additive_expression
+  ("<" / ">" / "<=" / ">=" / "=" / "/=" / "")
+  additive_expression
+
+additive_expression <-
+  multitive_expression (("+" / "-") multitive_expression)*
+
+multitive_expression <-
+  unary_expression (("*" / "/" / "%") unary_expression)*
+
+unary_expression <-
+  "~" primary_expression
+
+primary_expression <-
+  expression / identifier / integer_literal / function_call
+
+function_call <-
+  identifier tuple
+
+tuple <-
+  "(" (expression ("," expression)* / empty) ")"
+
