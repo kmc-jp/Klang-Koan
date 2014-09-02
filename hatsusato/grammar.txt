@@ -46,6 +46,9 @@ expression_statement <-
 variable_definition_statement <-
   variable_definition ";"
 
+variable_definition <-
+  "def" "type" "var"? identifier (":=" expression)?
+
 if_statement <-
   "if" "(" expression ")" compound_statement
   (else_if_statement / else_statement)?
@@ -72,9 +75,6 @@ break_statement <-
 
 continue_statement <-
   "continue" ";"
-
-variable_definition <-
-  "def" "type" "var"? identifier (":=" expression)?
 
 expression <-
   assign_expression
