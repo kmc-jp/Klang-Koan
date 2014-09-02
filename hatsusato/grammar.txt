@@ -31,7 +31,6 @@ compound_statement <-
   "{" statement* "}"
 
 statement <-
-  empty_statement /
   expression_statement /
   variable_definition_statement /
   if_statement /
@@ -41,11 +40,8 @@ statement <-
   break_statement /
   continue_statement
 
-empty_statement <-
-  ";"
-
 expression_statement <-
-  expression ";"
+  expression? ";"
 
 variable_definition_statement <-
   variable_definition ";"
