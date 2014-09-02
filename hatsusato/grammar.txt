@@ -1,4 +1,4 @@
-# written by PGE (Parsing Expression Grammar)
+# written by PEG (Parsing Expression Grammar)
 
 # Terminal symbol
 empty <- ""
