@@ -51,14 +51,7 @@ variable_definition <-
 
 if_statement <-
   "if" "(" expression ")" compound_statement
-  (else_if_statement / else_statement)?
-
-else_if_statement <-
-  "else" "if" "(" expression ")" compound_statement
-  (else_if_statement / else_statement)?
-
-else_statement <-
-  "else" compound_statement
+  ("else" if_statement / "else" compound_statement)?
 
 while_statement <-
   "while" "(" expression ")" compound_statement
