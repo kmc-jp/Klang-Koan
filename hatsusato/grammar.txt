@@ -108,4 +108,15 @@ parameter <-
   expression
 
 primary_expression <-
-  ("(" expression ")") / identifier / integer_literal
+  parenthesized_expression /
+  identifier_expression /
+  integer_literal_expression
+
+parenthesized_expression <-
+  "(" expression ")"
+
+identifier_expression <-
+  identifier
+
+integer_literal_expression <-
+  integer_literal
