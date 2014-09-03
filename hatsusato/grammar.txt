@@ -77,20 +77,20 @@ assign_expression <-
   ((":=" / ":+=" / ":-=" / ":*=" / ":/=" / ":%=") or_expression)?
 
 or_expression <-
-  and_expression ("or" and_expression)*
+  and_expression ("or" or_expression)?
 
 and_expression <-
-  comparative_expression ("and" comparative_expression)*
+  comparative_expression ("and" and_expression)?
 
 comparative_expression <-
   additive_expression
   (("=" / "/=" / "<" / ">" / "<=" / ">=") additive_expression)?
 
 additive_expression <-
-  multiplicative_expression (("+" / "-") multiplicative_expression)*
+  multiplicative_expression (("+" / "-") additive_expression)?
 
 multiplicative_expression <-
-  unary_expression (("*" / "/" / "%") unary_expression)*
+  unary_expression (("*" / "/" / "%") multiplicative_expression)?
 
 unary_expression <-
   (("not" / "~") unary_expression) / postfix_expression
