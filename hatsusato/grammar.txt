@@ -27,9 +27,6 @@ argument_list <-
 argument <-
   type identifier
 
-compound_statement <-
-  "{" statement* "}"
-
 statement <-
   expression_statement /
   variable_definition_statement /
@@ -38,7 +35,11 @@ statement <-
   for_statement /
   return_statement /
   break_statement /
-  continue_statement
+  continue_statement /
+  compound_statement
+
+compound_statement <-
+  "{" statement* "}"
 
 expression_statement <-
   expression? ";"
