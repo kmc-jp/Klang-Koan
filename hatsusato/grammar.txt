@@ -48,11 +48,11 @@ variable_definition_statement <-
   variable_definition ";"
 
 variable_definition <-
-  "def" "type" "var"? identifier (":=" expression)?
+  "def" type "var"? identifier (":=" expression)?
 
 if_statement <-
   "if" "(" expression ")" compound_statement
-  ("else" if_statement / "else" compound_statement)?
+  ("else" (if_statement / compound_statement))?
 
 while_statement <-
   "while" "(" expression ")" compound_statement
