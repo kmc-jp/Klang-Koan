@@ -10,9 +10,12 @@ nonzero_digit <- [1-9]
 decimal_digit <- [0-9]
 natural_number <- nonzero_digit (decimal_digit / ("_" !"_"))*
 decimal_integer <- ("0" ![0-9]) / ("~"? natural_number)
+character <- ("\" .) / .
 identifier <- alphabet_or_bar (alphabet_or_bar / decimal_digit)*
-integer_literal <- decimal_integer
 type <- "int"
+integer_literal <- decimal_integer
+character_literal <- "'" character "'"
+string_literal <- "\"" character* "\""
 
 # Nonterminal symbol
 program <-
@@ -121,3 +124,9 @@ identifier_expression <-
 
 integer_literal_expression <-
   integer_literal
+
+character_literal_expression <-
+  character_literal
+
+string_literal_expression <-
+  string_literal
