@@ -114,7 +114,9 @@ parameter <-
 primary_expression <-
   parenthesized_expression /
   identifier_expression /
-  integer_literal_expression
+  integer_literal_expression /
+  character_literal_expression /
+  string_literal_expression
 
 parenthesized_expression <-
   "(" expression ")"
