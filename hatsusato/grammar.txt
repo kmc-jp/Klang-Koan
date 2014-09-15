@@ -18,8 +18,8 @@ character_literal <- "'" character "'"
 string_literal <- "\"" character* "\""
 
 # Nonterminal symbol
-program <-
-  function_definition+
+translation_unit <-
+  function_definition*
 
 function_definition <-
   "def" identifier "(" argument_list ")" "->" "(" type ")" compound_statement
