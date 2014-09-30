@@ -30,7 +30,7 @@ function_definition <-
   "def" identifier "(" argument_list ")" "->" "(" type ")" compound_statement
 
 argument_list <-
-  (argument ("," argument)*) / empty
+  (argument ("," argument)*)?
 
 argument <-
   type identifier
@@ -113,7 +113,7 @@ function_call_expression <-
   identifier "(" parameter_list ")"
 
 parameter_list <-
-  (parameter ("," parameter)*) / empty
+  (parameter ("," parameter)*)?
 
 parameter <-
   expression
