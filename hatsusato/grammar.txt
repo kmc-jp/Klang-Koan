@@ -117,23 +117,8 @@ parameter <-
   expression
 
 primary_expression <-
-  parenthesized_expression /
-  identifier_expression /
-  integer_literal_expression /
-  character_literal_expression /
-  string_literal_expression
-
-parenthesized_expression <-
-  "(" expression ")"
-
-identifier_expression <-
-  identifier
-
-integer_literal_expression <-
-  integer_literal
-
-character_literal_expression <-
-  character_literal
-
-string_literal_expression <-
+  "(" expression ")" /
+  identifier /
+  integer_literal /
+  character_literal /
   string_literal
