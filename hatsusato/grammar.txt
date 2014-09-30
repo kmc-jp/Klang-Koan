@@ -105,9 +105,9 @@ unary_expression <-
   (("not" / "~") unary_expression) / postfix_expression
 
 postfix_expression <-
-  function_call / primary_expression
+  function_call_expression / primary_expression
 
-function_call <-
+function_call_expression <-
   identifier "(" parameter_list ")"
 
 parameter_list <-
