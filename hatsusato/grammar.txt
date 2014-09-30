@@ -3,7 +3,12 @@
 # Terminal symbol
 empty <- ""
 singleline_comment <- "~~" (!"\n" .)*
-multiline_comment <- "{~" .* "~}"
+multiline_comment <-
+  "{~" (
+    (&"~~" singleline_comment) /
+    (&"{~" multiline_comment) /
+    (!"~}" .)
+  )* "~}"
 alphabet <- [a-zA-Z]
 alphabet_or_bar <- "_" / alphabet
 nonzero_digit <- [1-9]
