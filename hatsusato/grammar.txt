@@ -50,7 +50,9 @@ compound_statement <-
   "{" statement* "}"
 
 if_statement <-
-  "if" "(" expression ")" compound_statement
+  "if" "(" expression ")" compound_statement else_statement
+
+else_statement <-
   ("else" (if_statement / compound_statement))?
 
 while_statement <-
