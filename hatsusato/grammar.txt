@@ -13,7 +13,7 @@ alphabet_or_bar <- "_" / alphabet
 nonzero_digit <- [1-9]
 decimal_digit <- [0-9]
 natural_number <- nonzero_digit (decimal_digit / ("_" &decimal_digit))*
-decimal_integer <- ("0" ![0-9]) / ("~"? natural_number)
+decimal_integer <- (("0" !decimal_digit) / "~"? natural_number) !alphabet_or_bar
 character <- ("\" .) / .
 
 # terminal symbol
