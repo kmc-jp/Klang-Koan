@@ -22,7 +22,7 @@ identifier <- alphabet_or_bar (alphabet_or_bar / decimal_digit)*
 type <- "int"
 integer_literal <- decimal_integer
 character_literal <- "'" character "'"
-string_literal <- "\"" character* "\""
+string_literal <- "\"" (!"\n" character)* "\""
 
 # nonterminal symbol
 translation_unit <-
