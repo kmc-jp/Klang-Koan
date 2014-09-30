@@ -1,7 +1,6 @@
 # written by PEG (Parsing Expression Grammar)
 
-# Terminal symbol
-empty <- ""
+# for lexer
 singleline_comment <- "~~" (!"\n" .)*
 multiline_comment <-
   "{~" (
@@ -16,13 +15,16 @@ decimal_digit <- [0-9]
 natural_number <- nonzero_digit (decimal_digit / ("_" !"_"))*
 decimal_integer <- ("0" ![0-9]) / ("~"? natural_number)
 character <- ("\" .) / .
+
+# terminal symbol
+empty <- ""
 identifier <- alphabet_or_bar (alphabet_or_bar / decimal_digit)*
 type <- "int"
 integer_literal <- decimal_integer
 character_literal <- "'" character "'"
 string_literal <- "\"" character* "\""
 
-# Nonterminal symbol
+# nonterminal symbol
 translation_unit <-
   function_definition*
 
