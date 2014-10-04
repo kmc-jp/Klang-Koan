@@ -4,7 +4,6 @@
 singleline_comment <- "~~" (!"\n" .)*
 multiline_comment <-
   "{~" (
-    (&"~~" singleline_comment) /
     (&"{~" multiline_comment) /
     (!"~}" .)
   )* "~}"
