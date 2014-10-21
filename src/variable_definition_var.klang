@@ -1,0 +1,4 @@
+def main() -> (int) {
+  def var x := 0;
+  return 0;
+}
