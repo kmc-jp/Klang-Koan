@@ -59,3 +59,25 @@
   演算子の優先度の定義によりそう
   CとかRustはtrueだし、従ってほしい気分ではある
   \>=とかあるんだから同格でもいいも一説
+
+## 型修飾子
++ 型とは直交する概念
++ ref immutable
++ lvalue rvalue xvalue prvalue ...
++ movable copyable
+
+|          |       movable     |   not   |
+|:--------:|:-----------------:|:-------:|
+| copyable |       vector      | literal |
+|   not    | unique_ptr thread |  mutex  |
+
+
+## 言語の目標
++ C++はmoveをデフォルトにすべきだった。
+  * copyは明示すべき 特にvectorのようなcopyとmoveの挙動が異なる場合
++ mutableな参照は事故が多いので対処が必要
++ "intはユーザー定義型のように振舞え"
++ C++の後続を任せられる値の言語を目指す
++ Cの資産は欲しいけれど、C++の資産はそこまで欲しくない。テンプレート・オーバーロードが辛い
++ リスト内包表記はマクロでやる
++ __式年遷宮__
