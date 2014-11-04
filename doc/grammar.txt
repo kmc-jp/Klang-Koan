@@ -1,0 +1,127 @@
+# written by PEG (Parsing Expression Grammar)
+
+# for lexer
+singleline_comment <- "~~" (!"\n" .)*
+multiline_comment <-
+  "{~" (
+    (&"{~" multiline_comment) /
+    (!"~}" .)
+  )* "~}"
+alphabet <- [a-zA-Z]
+alphabet_or_bar <- "_" / alphabet
+nonzero_digit <- [1-9]
+decimal_digit <- [0-9]
+natural_number <- nonzero_digit (decimal_digit / ("_" &decimal_digit))*
+decimal_integer <- (("0" !decimal_digit) / "~"? natural_number) !alphabet_or_bar
+character <- ("\" .) / .
+
+# terminal symbol
+empty <- ""
+identifier <- alphabet_or_bar (alphabet_or_bar / decimal_digit)*
+type <- "int"
+integer_literal <- decimal_integer
+character_literal <- "'" character "'"
+string_literal <- "\"" (!"\n" character)* "\""
+
+# nonterminal symbol
+translation_unit <-
+  function_definition*
+
+function_definition <-
+  "def" identifier "(" argument_list ")" "->" "(" type? ")" compound_statement
+
+argument_list <-
+  (argument ("," argument)*)?
+
+argument <-
+  type identifier
+
+statement <-
+  compound_statement /
+  if_statement /
+  while_statement /
+  for_statement /
+  return_statement /
+  break_statement /
+  continue_statement /
+  variable_definition_statement /
+  expression_statement
+
+compound_statement <-
+  "{" statement* "}"
+
+if_statement <-
+  "if" "(" expression ")" compound_statement else_statement
+
+else_statement <-
+  ("else" (if_statement / compound_statement))?
+
+while_statement <-
+  "while" "(" expression ")" compound_statement
+
+for_statement <-
+  "for" "(" expression? ";" expression? ";" expression? ")"
+  compound_statement
+
+return_statement <-
+  "return" expression ";"
+
+break_statement <-
+  "break" ";"
+
+continue_statement <-
+  "continue" ";"
+
+variable_definition_statement <-
+  variable_definition ";"
+
+variable_definition <-
+  "def" type "var"? identifier ":=" expression
+
+expression_statement <-
+  expression? ";"
+
+expression <-
+  assign_expression
+
+assign_expression <-
+  or_expression
+  ((":=" / ":+=" / ":-=" / ":*=" / ":/=" / ":%=") or_expression)?
+
+or_expression <-
+  and_expression ("or" or_expression)?
+
+and_expression <-
+  comparative_expression ("and" and_expression)?
+
+comparative_expression <-
+  additive_expression
+  (("=" / "=/" / "<" / ">" / "<=" / ">=") additive_expression)?
+
+additive_expression <-
+  multiplicative_expression (("+" / "-") additive_expression)?
+
+multiplicative_expression <-
+  unary_expression (("*" / "/" / "%") multiplicative_expression)?
+
+unary_expression <-
+  (("not" / "~") unary_expression) / postfix_expression
+
+postfix_expression <-
+  function_call_expression / primary_expression
+
+function_call_expression <-
+  identifier "(" parameter_list ")"
+
+parameter_list <-
+  (parameter ("," parameter)*)?
+
+parameter <-
+  expression
+
+primary_expression <-
+  "(" expression ")" /
+  identifier /
+  integer_literal /
+  character_literal /
+  string_literal
