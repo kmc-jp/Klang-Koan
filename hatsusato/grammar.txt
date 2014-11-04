@@ -28,7 +28,7 @@ translation_unit <-
   function_definition*
 
 function_definition <-
-  "def" identifier "(" argument_list ")" "->" "(" type ")" compound_statement
+  "def" identifier "(" argument_list ")" "->" "(" type? ")" compound_statement
 
 argument_list <-
   (argument ("," argument)*)?
