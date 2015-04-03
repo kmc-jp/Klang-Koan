@@ -1,0 +1,10 @@
+{~
+  とりあえずのデバッグ用
+  まだdeclareもstringもない
+  declare print(string) -> ();
+~}
+
+def main() -> (int) {
+  print("Hello, World!\n");
+  return 0;
+}
